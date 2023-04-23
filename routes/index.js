@@ -1,5 +1,6 @@
-const routes = app.get('/', (req, res, next) => {
-    res.json('Awesome person');
-});
+const routes = require('express').Router();
+const myController = require('../controllers');
 
-export default routes;
+routes.get('/', myController.awesomeFunction);
+
+module.exports = routes;
