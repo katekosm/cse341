@@ -1,5 +1,11 @@
-const index = (req, res, next) => {
-    res.json('Kate Sotnikova');
-}
+const mongodb = require('../db/connect');
 
-module.exports = { index }
+const index = async (req, res) => {
+    const result = await mongodb.getDb().db().listCollections();
+    result.toArray().then((list) => {
+        // res.setHeader('Content-Type', 'application/json');
+        res.status(200).send(list.map((item) => item.name).join('<br>'));
+    });
+};
+
+module.exports = { index };

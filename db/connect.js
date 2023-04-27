@@ -1,32 +1,34 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
-let _db;
+let db;
 
 function initDb(callback) {
-    if (_db) {
+    if (db) {
         console.log('Db is already initialized!');
-        return callback(null, _db);
+        return callback(null, db);
     }
     MongoClient.connect(process.env.MONGODB_URI)
         .then((client) => {
-            _db = client;
-            callback(null, _db);
+            db = client;
+            callback(null, db);
         })
         .catch((err) => {
             callback(err);
         });
+
+    return null;
 }
 
 const getDb = () => {
-    if (!_db) {
+    if (!db) {
         throw Error('Db not initialized');
     }
-    return _db;
+    return db;
 };
 
 module.exports = {
     initDb,
-    getDb,
+    getDb
 };
