@@ -21,17 +21,17 @@ content-type: application/json
 
 
 ### PUT contact
-PUT http://localhost:8080/contacts/6449c18dca0b460cdbaca19d HTTP/1.1
+PUT http://localhost:8080/contacts/6449fda8fa5397397f0f0034 HTTP/1.1
 content-type: application/json
 
 {
-    "firstName":"Ivan",
-    "lastName":"Ivanov",
-    "email":"ivanov.ivan@gmail.com",
-    "favoriteColor":"White",
+    "firstName":"Boris",
+    "lastName":"Makarov",
+    "email":"makarov.boris@gmail.com",
+    "favoriteColor":"Orange",
     "birthday":"11/10/13"
 }
 
 
 ### DELETE contact
-DELETE http://localhost:8080/contacts/6449e553ad65444c4ef0f98f HTTP/1.1
+DELETE http://localhost:8080/contacts/6449fda8fa5397397f0f0034 HTTP/1.1

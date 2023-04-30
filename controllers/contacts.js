@@ -3,7 +3,7 @@ const mongodb = require('../db/connect');
 
 const collectionName = 'contacts';
 
-const getAll = async(req, res) => {
+const getAll = async (req, res) => {
     const result = await mongodb.getDb().db().collection(collectionName).find();
     result.toArray().then((lists) => {
         res.setHeader('Content-Type', 'application/json');
@@ -11,7 +11,7 @@ const getAll = async(req, res) => {
     });
 };
 
-const getSingle = async(req, res) => {
+const getSingle = async (req, res) => {
     const userId = new ObjectId(req.params.id);
     const result = await mongodb.getDb().db().collection(collectionName).find({ _id: userId });
     result.toArray().then((lists) => {
@@ -20,7 +20,7 @@ const getSingle = async(req, res) => {
     });
 };
 
-const createContact = async(req, res) => {
+const createContact = async (req, res) => {
     const contact = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -36,7 +36,7 @@ const createContact = async(req, res) => {
     }
 };
 
-const updateContact = async(req, res) => {
+const updateContact = async (req, res) => {
     const userId = new ObjectId(req.params.id);
     // be aware of updateOne if you only want to update specific fields
     const contact = {
@@ -59,16 +59,24 @@ const updateContact = async(req, res) => {
     }
 };
 
-const deleteContact = async(req, res) => {
-    const userId = new ObjectId(req.params.id);
+const deleteContact = async (req, res) => {
+    let userId = null;
+    console.log(req.params.id);
+    try {
+        userId = new ObjectId(req.params.id.trim());
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error);
+        return;
+    }
+
     const response = await mongodb
         .getDb()
         .db()
         .collection(collectionName)
         .deleteOne({ _id: userId });
-    console.log(response);
     if (response.deletedCount > 0) {
-        res.status(200).send();
+        res.status(200).send(response);
     } else {
         res.status(500).json(response.error || 'Some error occurred while deleting the contact.');
     }
