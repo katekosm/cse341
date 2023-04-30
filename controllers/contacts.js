@@ -2,7 +2,7 @@ const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 const collectionName = 'contacts';
 
-const getAll = async (req, res) => {
+const getAll = async(req, res) => {
     try {
         const result = await mongodb.getDb().db().collection(collectionName).find();
         result.toArray().then((lists) => {
@@ -14,7 +14,7 @@ const getAll = async (req, res) => {
     }
 };
 
-const getSingle = async (req, res) => {
+const getSingle = async(req, res) => {
     try {
         const userId = new ObjectId(req.params.id);
         const result = await mongodb.getDb().db().collection(collectionName).find({ _id: userId });
@@ -27,7 +27,7 @@ const getSingle = async (req, res) => {
     }
 };
 
-const createContact = async (req, res) => {
+const createContact = async(req, res) => {
     try {
         const contact = {
             firstName: req.body.firstName,
@@ -49,7 +49,7 @@ const createContact = async (req, res) => {
     }
 };
 
-const updateContact = async (req, res) => {
+const updateContact = async(req, res) => {
     try {
         let id = req.params.id;
         if (id === 'undefined') {
@@ -83,7 +83,7 @@ const updateContact = async (req, res) => {
     }
 };
 
-const deleteContact = async (req, res) => {
+const deleteContact = async(req, res) => {
     try {
         let id = req.params.id;
         if (id === 'undefined') {
@@ -95,7 +95,7 @@ const deleteContact = async (req, res) => {
             .getDb()
             .db()
             .collection(collectionName)
-            .remove({ _id: userId }, true);
+            .deleteOne({ _id: userId });
         console.log(response);
         if (response.deletedCount > 0) {
             res.status(204).send();
@@ -109,7 +109,7 @@ const deleteContact = async (req, res) => {
     }
 };
 
-const getLastRecord = async () => {
+const getLastRecord = async() => {
     const lastRecord = await mongodb
         .getDb()
         .db()
